@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
+import Academics from './pages/Academics';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -12,6 +13,8 @@ function App() {
         return <Home setCurrentPage={setCurrentPage} />;
       case 'about':
         return <About />;
+      case 'academics':
+        return <Academics />;
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
