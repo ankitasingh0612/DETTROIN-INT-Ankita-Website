@@ -182,3 +182,8 @@
     border-right-color: var(--border);
   }
 }
+
+/* Responsive layout optimizations for screens under 480px */
+@media (max-width: 480px) {
+  .container { padding: 0 15px; }
+}
