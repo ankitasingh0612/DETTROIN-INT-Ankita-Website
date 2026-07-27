@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
+import About from './pages/About';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -9,6 +10,8 @@ function App() {
     switch (currentPage) {
       case 'home':
         return <Home setCurrentPage={setCurrentPage} />;
+      case 'about':
+        return <About />;
       default:
         return <Home setCurrentPage={setCurrentPage} />;
     }
