@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Home from './pages/Home';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <Home setCurrentPage={setCurrentPage} />;
+      default:
+        return <Home setCurrentPage={setCurrentPage} />;
+    }
+  };
   return (
     <div className="app-container">
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <main><div style={{padding: '100px 20px', textAlign: 'center'}}><h2>Loading Home page...</h2></div></main>
+      <main>{renderPage()}</main>
       <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
