@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react';
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -13,6 +14,10 @@ export default function Contact() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 4000);
   };
 
   const handleChange = (e) => {
@@ -22,6 +27,19 @@ export default function Contact() {
 
   return (
     <div className="contact-page">
+      {/* Custom Floating Toast Notification */}
+      {showToast && (
+        <div className="toast-notification animate-slide-in">
+          <div className="toast-content">
+            <CheckCircle size={20} className="toast-success-icon" />
+            <div>
+              <h4>Message Sent!</h4>
+              <p>Your inquiry has been successfully sent.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header Banner */}
       <section className="contact-header">
         <div className="container text-center">
@@ -150,12 +168,12 @@ export default function Contact() {
                     rows="5"
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Describe your query in detail..."
+                    placeholder="Describe your query..."
                   ></textarea>
                 </div>
 
                 <button type="submit" className="submit-btn">
-                  <Send size={16} style={{ marginRight: '8px' }} /> Send Message
+                  Send Message <Send size={16} style={{ marginLeft: '8px' }} />
                 </button>
               </form>
             )}
@@ -168,62 +186,121 @@ export default function Contact() {
           background-color: var(--secondary-beige);
         }
 
+        /* Floating Toast Notification CSS */
+        .toast-notification {
+          position: fixed;
+          top: 90px;
+          right: 30px;
+          background-color: var(--bg-pure);
+          border-left: 4px solid #3b5a41;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+          border-radius: var(--radius-sm);
+          padding: 16px 24px;
+          z-index: 9999;
+          min-width: 320px;
+          max-width: 400px;
+        }
+
+        .toast-content {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .toast-success-icon {
+          color: #3b5a41;
+          flex-shrink: 0;
+        }
+
+        .toast-content h4 {
+          font-size: 1rem;
+          color: var(--text-dark);
+          margin-bottom: 2px;
+        }
+
+        .toast-content p {
+          font-size: 0.85rem;
+          color: var(--text-muted);
+        }
+
+        @keyframes slideIn {
+          from { transform: translateX(110%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+
+        .animate-slide-in {
+          animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Header Banner styles */
         .contact-header {
-          background: linear-gradient(rgba(122, 28, 46, 0.9), rgba(90, 17, 31, 0.95)), url('https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+          background: linear-gradient(rgba(122, 28, 46, 0.9), rgba(90, 17, 31, 0.95)), url('https://images.unsplash.com/photo-1596495573176-229267abb63d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
           background-size: cover;
           background-position: center;
           padding: 80px 0;
-          color: var(--text-light);
-        }
-
-        .contact-header h1 {
-          color: var(--text-light);
-          font-size: 2.8rem;
-          margin-top: 8px;
+          color: #ffffff;
         }
 
         .contact-badge {
           font-size: 0.8rem;
           font-weight: 700;
-          letter-spacing: 2px;
           color: var(--accent-gold);
+          letter-spacing: 2px;
         }
 
+        .contact-header h1 {
+          font-family: var(--font-serif);
+          font-size: 2.8rem;
+          margin-top: 8px;
+          color: #ffffff;
+          text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .header-bar {
+          width: 50px;
+          height: 3px;
+          background-color: var(--accent-gold);
+          margin: 15px auto 0 auto;
+        }
+
+        /* Contact Body Layout */
         .contact-body {
           padding: 80px 0;
         }
 
         .body-grid {
           display: grid;
-          grid-template-columns: 1.1fr 0.9fr;
+          grid-template-columns: 1.1fr 1fr;
           gap: 50px;
+          align-items: start;
         }
 
         .contact-details h2 {
-          font-size: 2rem;
+          font-size: 1.8rem;
           margin-bottom: 16px;
+          color: var(--primary-maroon);
         }
 
         .intro-text {
           font-size: 1.05rem;
           color: var(--text-muted);
           line-height: 1.6;
-          margin-bottom: 30px;
+          margin-bottom: 35px;
         }
 
         .cards-wrapper {
           display: flex;
           flex-direction: column;
           gap: 20px;
-          margin-bottom: 30px;
+          margin-bottom: 35px;
         }
 
         .info-card {
+          background-color: var(--bg-card);
+          padding: 20px 24px;
+          border-radius: var(--radius-md);
           display: flex;
           gap: 16px;
-          background-color: var(--bg-pure);
-          padding: 24px;
-          border-radius: var(--radius-md);
           box-shadow: var(--shadow-sm);
           border: 1px solid rgba(197, 168, 128, 0.15);
         }
@@ -234,53 +311,51 @@ export default function Contact() {
         }
 
         .info-card h4 {
-          font-size: 1.05rem;
+          font-size: 1.1rem;
           font-weight: 600;
-          margin-bottom: 4px;
           color: var(--text-dark);
+          margin-bottom: 4px;
         }
 
         .info-card p {
-          font-size: 0.9rem;
+          font-size: 0.95rem;
           color: var(--text-muted);
+          line-height: 1.4;
         }
 
-        .sub-text {
-          font-size: 0.8rem !important;
+        .info-card .sub-text {
+          font-size: 0.8rem;
+          color: var(--accent-gold-dark);
           margin-top: 4px;
-          font-weight: 500;
-          color: var(--accent-gold-dark) !important;
+          font-weight: 600;
         }
 
         /* Map styling */
         .map-wrapper {
-          background-color: var(--bg-pure);
           border-radius: var(--radius-md);
           overflow: hidden;
-          border: 1px solid rgba(197, 168, 128, 0.2);
           box-shadow: var(--shadow-sm);
+          border: 1px solid rgba(197, 168, 128, 0.2);
         }
 
         .map-banner {
-          background-color: var(--primary-maroon-light);
+          background-color: var(--primary-maroon);
+          color: var(--text-light);
           padding: 10px 16px;
           font-size: 0.85rem;
           font-weight: 600;
-          color: var(--primary-maroon);
           display: flex;
           align-items: center;
           gap: 8px;
-          border-bottom: 1px solid rgba(197, 168, 128, 0.15);
         }
 
-        /* Form styling */
+        /* Contact Form styling */
         .contact-form-wrapper {
           background-color: var(--bg-card);
           padding: 40px;
           border-radius: var(--radius-md);
           box-shadow: var(--shadow-md);
           border: 1px solid rgba(197, 168, 128, 0.15);
-          height: fit-content;
         }
 
         .contact-form-wrapper h3 {
@@ -320,6 +395,7 @@ export default function Contact() {
           font-family: var(--font-sans);
           background-color: var(--bg-pure);
           transition: var(--transition-fast);
+          border-style: solid;
         }
 
         textarea {
@@ -344,6 +420,8 @@ export default function Contact() {
           justify-content: center;
           margin-top: 10px;
           box-shadow: var(--shadow-sm);
+          border: none;
+          cursor: pointer;
         }
 
         .submit-btn:hover {
@@ -384,6 +462,7 @@ export default function Contact() {
           padding: 10px 20px;
           border-radius: var(--radius-sm);
           font-weight: 600;
+          cursor: pointer;
         }
 
         .reset-btn:hover {

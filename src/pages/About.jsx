@@ -1,7 +1,18 @@
 import React from 'react';
-import { Target, Eye, Quote, Users, Sparkles, BookOpen } from 'lucide-react';
+import { Target, Eye, Quote, Users, Sparkles, BookOpen, GraduationCap, Award, MapPin } from 'lucide-react';
 
 export default function About() {
+  const universityPlacements = [
+    { name: "Harvard University", location: "USA", logoBg: "#A51C30" },
+    { name: "Stanford University", location: "USA", logoBg: "#8C1515" },
+    { name: "University of Oxford", location: "UK", logoBg: "#002147" },
+    { name: "University of Cambridge", location: "UK", logoBg: "#D60D22" },
+    { name: "Massachusetts Institute of Technology (MIT)", location: "USA", logoBg: "#A31F34" },
+    { name: "St. Stephen's College", location: "India", logoBg: "#115740" },
+    { name: "IIT Delhi & Bombay", location: "India", logoBg: "#0B4C8C" },
+    { name: "Ashoka University", location: "India", logoBg: "#6F2C3F" },
+  ];
+
   return (
     <div className="about-page">
       {/* Header Banner */}
@@ -35,6 +46,39 @@ export default function About() {
         </div>
       </section>
 
+      {/* School Profile Stats Block */}
+      <section className="profile-stats-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span>SCHOOL PROFILE</span>
+            <h2>Vasant Valley At A Glance</h2>
+            <div className="header-bar"></div>
+          </div>
+          <div className="profile-stats-grid">
+            <div className="profile-stat-card">
+              <Users size={32} className="stat-icon" />
+              <h3>1,300+</h3>
+              <p>Active Student Community</p>
+            </div>
+            <div className="profile-stat-card">
+              <Award size={32} className="stat-icon" />
+              <h3>120+</h3>
+              <p>Highly Trained Subject Mentors</p>
+            </div>
+            <div className="profile-stat-card">
+              <GraduationCap size={32} className="stat-icon" />
+              <h3>5,000+</h3>
+              <p>Strong Global Alumni Network</p>
+            </div>
+            <div className="profile-stat-card">
+              <MapPin size={32} className="stat-icon" />
+              <h3>8+ Acres</h3>
+              <p>Lush Green Eco-friendly Campus</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Vision & Mission Cards */}
       <section className="vision-mission">
         <div className="container vision-mission-grid">
@@ -56,6 +100,33 @@ export default function About() {
             <p>
               To provide a nurturing, safe, and academically rigorous environment that promotes critical inquiry, active collaboration, environmental stewardship, and a commitment to personal growth and societal responsibility.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* College Placements Board */}
+      <section className="placements-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span>ALUMNI PLACEMENT BOARD</span>
+            <h2>Top Global College Placements</h2>
+            <div className="header-bar"></div>
+          </div>
+          <p className="placement-intro text-center">
+            Our students consistently receive admission offers from leading institutions globally and within India.
+          </p>
+          <div className="placements-grid">
+            {universityPlacements.map((univ, index) => (
+              <div key={index} className="placement-card">
+                <div className="univ-badge" style={{ backgroundColor: univ.logoBg }}>
+                  {univ.name.charAt(0)}
+                </div>
+                <div className="univ-details">
+                  <h4>{univ.name}</h4>
+                  <span className="univ-loc">{univ.location}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -171,8 +242,57 @@ export default function About() {
           font-style: normal;
         }
 
+        /* School Profile Stats Styling */
+        .profile-stats-section {
+          padding: 85px 0;
+          background-color: var(--secondary-beige);
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
+        }
+
+        .profile-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 25px;
+          margin-top: 40px;
+        }
+
+        .profile-stat-card {
+          background-color: var(--bg-card);
+          padding: 30px 24px;
+          border-radius: var(--radius-md);
+          border: 1px solid rgba(197, 168, 128, 0.15);
+          text-align: center;
+          box-shadow: var(--shadow-sm);
+          transition: var(--transition-smooth);
+        }
+
+        .profile-stat-card:hover {
+          transform: translateY(-5px);
+          box-shadow: var(--shadow-md);
+          border-color: var(--primary-maroon);
+        }
+
+        .stat-icon {
+          color: var(--primary-maroon);
+          margin-bottom: 16px;
+        }
+
+        .profile-stat-card h3 {
+          font-size: 2.2rem;
+          color: var(--primary-maroon);
+          margin-bottom: 6px;
+        }
+
+        .profile-stat-card p {
+          font-size: 0.9rem;
+          color: var(--text-muted);
+          font-weight: 600;
+        }
+
         .vision-mission {
           padding: 80px 0;
+          background-color: var(--bg-pure);
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
         }
 
         .vision-mission-grid {
@@ -182,7 +302,7 @@ export default function About() {
         }
 
         .vm-card {
-          background-color: var(--bg-card);
+          background-color: var(--secondary-beige);
           padding: 40px;
           border-radius: var(--radius-md);
           box-shadow: var(--shadow-sm);
@@ -219,9 +339,73 @@ export default function About() {
           font-size: 0.95rem;
         }
 
+        /* Placements Styling */
+        .placements-section {
+          padding: 85px 0;
+          background-color: var(--secondary-beige);
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
+        }
+
+        .placement-intro {
+          max-width: 650px;
+          margin: 0 auto 40px auto;
+          color: var(--text-muted);
+        }
+
+        .placements-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 20px;
+        }
+
+        .placement-card {
+          background-color: var(--bg-card);
+          padding: 20px;
+          border-radius: var(--radius-sm);
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          box-shadow: var(--shadow-sm);
+          border: 1px solid rgba(197, 168, 128, 0.15);
+          transition: var(--transition-smooth);
+        }
+
+        .placement-card:hover {
+          transform: translateY(-3px);
+          border-color: var(--primary-maroon);
+          box-shadow: var(--shadow-md);
+        }
+
+        .univ-badge {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          color: var(--text-light);
+          font-weight: 700;
+          font-size: 1.25rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .univ-details h4 {
+          font-size: 0.95rem;
+          color: var(--text-dark);
+          margin-bottom: 2px;
+          font-family: var(--font-sans);
+        }
+
+        .univ-loc {
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          font-weight: 600;
+          text-transform: uppercase;
+        }
+
         .values-section {
           padding: 80px 0;
           background-color: var(--bg-pure);
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
         }
 
         .values-grid {
@@ -263,7 +447,22 @@ export default function About() {
           .vision-mission-grid {
             grid-template-columns: 1fr;
           }
+          .profile-stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .placements-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
           .values-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 576px) {
+          .profile-stats-grid {
+            grid-template-columns: 1fr;
+          }
+          .placements-grid {
             grid-template-columns: 1fr;
           }
         }

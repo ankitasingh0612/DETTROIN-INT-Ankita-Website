@@ -170,3 +170,17 @@ main {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-maroon);
 }
+
+.dark-theme {
+  --primary-maroon: #E24F6C;
+  --primary-maroon-hover: #F87D96;
+  --primary-maroon-light: #2A1115;
+  --secondary-beige: #121212;
+  --accent-gold: #D8B787;
+  --accent-gold-dark: #F5D3A2;
+  --bg-pure: #1E1E1E;
+  --bg-card: #282828;
+  --text-dark: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --text-light: #FFFFFF;
+}

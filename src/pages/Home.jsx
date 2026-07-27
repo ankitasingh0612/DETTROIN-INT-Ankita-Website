@@ -1,10 +1,80 @@
-import React from 'react';
-import { ArrowRight, Star, Heart, Award, ShieldCheck, ChevronRight, BookOpen, Clock, CalendarRange } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Star, Heart, Award, ShieldCheck, ChevronRight, BookOpen, Clock, CalendarRange, Quote, ChevronLeft } from 'lucide-react';
 
 export default function Home({ setCurrentPage }) {
   const navigateTo = (page) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // 1. Live Countdown Timer State
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  useEffect(() => {
+    const targetDate = new Date("October 15, 2026 10:00:00").getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+      if (difference < 0) {
+        clearInterval(interval);
+      } else {
+        const d = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const h = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((difference % (1000 * 60)) / 1000);
+        setTimeLeft({ days: d, hours: h, minutes: m, seconds: s });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // 2. Interactive Gallery Filter State
+  const [galleryFilter, setGalleryFilter] = useState('all');
+  const galleryItems = [
+    { id: 1, category: 'infra', title: 'Modern Library & Resource Center', img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 2, category: 'academics', title: 'Advanced Chemistry Lab Work', img: 'https://images.unsplash.com/photo-1507413245164-6160d8298b31?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 3, category: 'sports', title: 'Athletics & Professional Track', img: 'https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 4, category: 'campus', title: 'Annual Art & Painting Festival', img: 'https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 5, category: 'infra', title: 'Smart Digitized Classrooms', img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 6, category: 'sports', title: 'Inter-School Basketball Finals', img: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 7, category: 'infra', title: 'State-of-the-Art Computer & Robotics Lab', img: 'https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 8, category: 'academics', title: 'Interactive Biology & Microscopy Lab', img: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 9, category: 'academics', title: 'Creative Writing & Seminar Session', img: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 10, category: 'sports', title: 'Air-conditioned Olympic Swimming Pool', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 11, category: 'campus', title: 'Annual Day Theatre & Dance Event', img: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' },
+    { id: 12, category: 'campus', title: 'Music Room Rehearsals & Jam Sessions', img: 'https://images.unsplash.com/photo-1511192336575-5a79af67a629?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' }
+  ];
+  const filteredGallery = galleryFilter === 'all' 
+    ? galleryItems 
+    : galleryItems.filter(item => item.category === galleryFilter);
+
+  // 3. Testimonial Carousel State
+  const [activeTestimonial, setActiveTestimonial] = useState(0);
+  const testimonials = [
+    {
+      quote: "Vasant Valley gave me the confidence to explore beyond books. The focus on analytical skills helped me secure my research fellowship at Stanford.",
+      author: "Aditi Rao",
+      role: "Alumna, Batch of 2018 (Postdoc Researcher)",
+      stars: 5
+    },
+    {
+      quote: "The personalized attention here is unmatched. Teachers don't just teach; they act as mentors who understand my child's unique talents.",
+      author: "Dr. Sandeep Mehta",
+      role: "Parent of Grade IX Student",
+      stars: 5
+    },
+    {
+      quote: "Vasant Valley's emphasis on holistic development built my foundations. Debating and community projects shaped my career in public policy.",
+      author: "Vikram Sen",
+      role: "Alumnus, Batch of 2015 (Consultant)",
+      stars: 5
+    }
+  ];
+
+  const handlePrevTestimonial = () => {
+    setActiveTestimonial((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+  const handleNextTestimonial = () => {
+    setActiveTestimonial((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -25,6 +95,37 @@ export default function Home({ setCurrentPage }) {
             <button className="btn-secondary" onClick={() => navigateTo('about')}>
               Discover Our Vision
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Countdown Timer Widget Section */}
+      <section className="countdown-section">
+        <div className="container countdown-box">
+          <div className="countdown-info">
+            <CalendarRange size={24} className="countdown-icon" />
+            <div>
+              <h3>Annual Science & Tech Symposium 2026</h3>
+              <p>Registration deadline is approaching fast. Enroll today!</p>
+            </div>
+          </div>
+          <div className="countdown-timer">
+            <div className="timer-segment">
+              <span className="time-val">{timeLeft.days}</span>
+              <span className="time-lbl">Days</span>
+            </div>
+            <div className="timer-segment">
+              <span className="time-val">{timeLeft.hours}</span>
+              <span className="time-lbl">Hrs</span>
+            </div>
+            <div className="timer-segment">
+              <span className="time-val">{timeLeft.minutes}</span>
+              <span className="time-lbl">Mins</span>
+            </div>
+            <div className="timer-segment">
+              <span className="time-val">{timeLeft.seconds}</span>
+              <span className="time-lbl">Secs</span>
+            </div>
           </div>
         </div>
       </section>
@@ -104,6 +205,80 @@ export default function Home({ setCurrentPage }) {
         </div>
       </section>
 
+      {/* New Interactive Campus Gallery Grid Section */}
+      <section className="gallery-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span>DISCOVER CAMPUS LIFE</span>
+            <h2>A Glimpse Into Vasant Valley</h2>
+            <div className="header-bar"></div>
+          </div>
+
+          {/* Filter Categories */}
+          <div className="gallery-filters">
+            <button className={`filter-btn ${galleryFilter === 'all' ? 'active' : ''}`} onClick={() => setGalleryFilter('all')}>All Photos</button>
+            <button className={`filter-btn ${galleryFilter === 'infra' ? 'active' : ''}`} onClick={() => setGalleryFilter('infra')}>Infrastructure</button>
+            <button className={`filter-btn ${galleryFilter === 'academics' ? 'active' : ''}`} onClick={() => setGalleryFilter('academics')}>Academics</button>
+            <button className={`filter-btn ${galleryFilter === 'sports' ? 'active' : ''}`} onClick={() => setGalleryFilter('sports')}>Sports</button>
+            <button className={`filter-btn ${galleryFilter === 'campus' ? 'active' : ''}`} onClick={() => setGalleryFilter('campus')}>Campus Life</button>
+          </div>
+
+          {/* Grid Layout */}
+          <div className="gallery-grid">
+            {filteredGallery.map(item => (
+              <div className="gallery-card animate-zoom-in" key={item.id}>
+                <img src={item.img} alt={item.title} />
+                <div className="gallery-card-overlay">
+                  <h4>{item.title}</h4>
+                  <span className="gallery-cat-badge">{item.category.toUpperCase()}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Carousel Section */}
+      <section className="testimonials-section">
+        <div className="container">
+          <div className="section-header text-center">
+            <span>TESTIMONIALS</span>
+            <h2>Voices of Vasant Valley</h2>
+            <div className="header-bar"></div>
+          </div>
+
+          <div className="testimonial-slider-container">
+            <button className="carousel-nav-btn prev" onClick={handlePrevTestimonial}>
+              <ChevronLeft size={24} />
+            </button>
+            <div className="testimonial-card">
+              <Quote size={40} className="quote-badge-icon" />
+              <p className="testimonial-quote">"{testimonials[activeTestimonial].quote}"</p>
+              <div className="testimonial-rating">
+                {[...Array(testimonials[activeTestimonial].stars)].map((_, i) => (
+                  <Star key={i} size={16} fill="var(--accent-gold)" color="var(--accent-gold)" />
+                ))}
+              </div>
+              <h4 className="testimonial-author">{testimonials[activeTestimonial].author}</h4>
+              <p className="testimonial-role">{testimonials[activeTestimonial].role}</p>
+            </div>
+            <button className="carousel-nav-btn next" onClick={handleNextTestimonial}>
+              <ChevronRight size={24} />
+            </button>
+          </div>
+
+          <div className="carousel-indicators">
+            {testimonials.map((_, i) => (
+              <span 
+                key={i} 
+                className={`indicator-dot ${activeTestimonial === i ? 'active' : ''}`}
+                onClick={() => setActiveTestimonial(i)}
+              ></span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Highlights / Notice Board & News */}
       <section className="updates-section">
         <div className="container updates-grid">
@@ -167,9 +342,11 @@ export default function Home({ setCurrentPage }) {
         /* Hero Section styles */
         .hero-section {
           position: relative;
-          background: linear-gradient(135deg, #4A0E17 0%, #7A1C2E 100%);
-          height: 80vh;
-          min-height: 550px;
+          background: linear-gradient(rgba(74, 14, 23, 0.75), rgba(40, 6, 10, 0.85)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+          background-size: cover;
+          background-position: center;
+          height: 85vh;
+          min-height: 600px;
           display: flex;
           align-items: center;
           color: var(--text-light);
@@ -179,7 +356,7 @@ export default function Home({ setCurrentPage }) {
         .hero-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at 70% 30%, rgba(197, 168, 128, 0.15) 0%, transparent 70%);
+          background: radial-gradient(circle at 30% 50%, rgba(197, 168, 128, 0.1) 0%, transparent 60%);
         }
 
         .hero-content {
@@ -250,6 +427,74 @@ export default function Home({ setCurrentPage }) {
           border-color: var(--accent-gold);
           background-color: rgba(197, 168, 128, 0.1);
           color: var(--accent-gold);
+        }
+
+        /* Countdown section styles */
+        .countdown-section {
+          background-color: var(--bg-pure);
+          padding: 30px 0;
+          border-bottom: 1px solid rgba(197, 168, 128, 0.2);
+        }
+
+        .countdown-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          background: rgba(122, 28, 46, 0.05);
+          border: 1px solid rgba(122, 28, 46, 0.1);
+          border-radius: var(--radius-md);
+          padding: 24px 40px;
+          gap: 20px;
+        }
+
+        .countdown-info {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
+
+        .countdown-icon {
+          color: var(--primary-maroon);
+          flex-shrink: 0;
+        }
+
+        .countdown-info h3 {
+          font-size: 1.25rem;
+          color: var(--primary-maroon);
+          margin-bottom: 4px;
+        }
+
+        .countdown-info p {
+          font-size: 0.9rem;
+          color: var(--text-muted);
+        }
+
+        .countdown-timer {
+          display: flex;
+          gap: 15px;
+        }
+
+        .timer-segment {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          background-color: var(--primary-maroon);
+          color: var(--text-light);
+          padding: 8px 16px;
+          border-radius: var(--radius-sm);
+          min-width: 70px;
+        }
+
+        .time-val {
+          font-size: 1.6rem;
+          font-weight: 700;
+          line-height: 1.1;
+        }
+
+        .time-lbl {
+          font-size: 0.75rem;
+          color: rgba(255, 255, 255, 0.7);
+          text-transform: uppercase;
         }
 
         /* Motto banner styling */
@@ -417,6 +662,211 @@ export default function Home({ setCurrentPage }) {
           line-height: 1.6;
         }
 
+        /* Gallery Section Styles */
+        .gallery-section {
+          padding: 85px 0;
+          background-color: var(--bg-pure);
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
+        }
+
+        .gallery-filters {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 40px;
+        }
+
+        .filter-btn {
+          background-color: transparent;
+          border: 1px solid rgba(122, 28, 46, 0.2);
+          color: var(--primary-maroon);
+          padding: 8px 20px;
+          border-radius: 30px;
+          font-weight: 600;
+          font-size: 0.9rem;
+          transition: var(--transition-smooth);
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+          background-color: var(--primary-maroon);
+          color: var(--text-light);
+          border-color: var(--primary-maroon);
+        }
+
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 25px;
+        }
+
+        .gallery-card {
+          position: relative;
+          border-radius: var(--radius-md);
+          overflow: hidden;
+          box-shadow: var(--shadow-sm);
+          height: 250px;
+          cursor: pointer;
+        }
+
+        .gallery-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+
+        .gallery-card-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(74, 14, 23, 0.95), rgba(74, 14, 23, 0.4) 60%, transparent);
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          padding: 24px;
+          opacity: 0;
+          transition: var(--transition-smooth);
+        }
+
+        .gallery-card:hover img {
+          transform: scale(1.15);
+        }
+
+        .gallery-card:hover .gallery-card-overlay {
+          opacity: 1;
+        }
+
+        .gallery-card-overlay h4 {
+          color: var(--text-light);
+          font-size: 1.15rem;
+          margin-bottom: 6px;
+          font-family: var(--font-serif);
+        }
+
+        .gallery-cat-badge {
+          background-color: var(--accent-gold);
+          color: var(--primary-maroon);
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 0.7rem;
+          font-weight: 700;
+          width: fit-content;
+        }
+
+        /* Testimonials Slider Section Styles */
+        .testimonials-section {
+          background-color: var(--secondary-beige);
+          padding: 85px 0;
+          border-top: 1px solid rgba(197, 168, 128, 0.2);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .testimonial-slider-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          max-width: 850px;
+          margin: 0 auto;
+          position: relative;
+          gap: 30px;
+        }
+
+        .carousel-nav-btn {
+          width: 50px;
+          height: 50px;
+          background-color: var(--bg-pure);
+          border: 1px solid rgba(197, 168, 128, 0.3);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--primary-maroon);
+          box-shadow: var(--shadow-sm);
+          transition: var(--transition-smooth);
+          flex-shrink: 0;
+        }
+
+        .carousel-nav-btn:hover {
+          background-color: var(--primary-maroon);
+          color: var(--text-light);
+          border-color: var(--primary-maroon);
+        }
+
+        .testimonial-card {
+          background-color: var(--bg-pure);
+          padding: 50px;
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-md);
+          border: 1px solid rgba(197, 168, 128, 0.2);
+          text-align: center;
+          width: 100%;
+          min-height: 280px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+        }
+
+        .quote-badge-icon {
+          color: rgba(122, 28, 46, 0.08);
+          position: absolute;
+          top: 30px;
+          left: 40px;
+        }
+
+        .testimonial-quote {
+          font-size: 1.3rem;
+          font-family: var(--font-serif);
+          font-style: italic;
+          color: var(--text-dark);
+          line-height: 1.6;
+          margin-bottom: 24px;
+          position: relative;
+          z-index: 5;
+        }
+
+        .testimonial-rating {
+          display: flex;
+          gap: 4px;
+          margin-bottom: 16px;
+        }
+
+        .testimonial-author {
+          font-size: 1.2rem;
+          color: var(--primary-maroon);
+          margin-bottom: 4px;
+        }
+
+        .testimonial-role {
+          font-size: 0.85rem;
+          color: var(--text-muted);
+          font-weight: 500;
+        }
+
+        .carousel-indicators {
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 30px;
+        }
+
+        .indicator-dot {
+          width: 10px;
+          height: 10px;
+          background-color: rgba(122, 28, 46, 0.2);
+          border-radius: 50%;
+          cursor: pointer;
+          transition: var(--transition-smooth);
+        }
+
+        .indicator-dot.active {
+          width: 25px;
+          border-radius: 10px;
+          background-color: var(--primary-maroon);
+        }
+
         /* Updates & notice board section styling */
         .updates-section {
           padding: 80px 0;
@@ -541,6 +991,15 @@ export default function Home({ setCurrentPage }) {
           color: var(--text-muted);
         }
 
+        /* Animations */
+        @keyframes zoomIn {
+          from { transform: scale(0.95); opacity: 0; }
+          to { transform: scale(1); opacity: 1; }
+        }
+        .animate-zoom-in {
+          animation: zoomIn 0.4s ease-out forwards;
+        }
+
         @media (max-width: 992px) {
           .motto-grid {
             grid-template-columns: 1fr;
@@ -556,6 +1015,30 @@ export default function Home({ setCurrentPage }) {
             grid-template-columns: 1fr;
             gap: 40px;
           }
+          .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+          .countdown-box {
+            flex-direction: column;
+            padding: 24px;
+            text-align: center;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .testimonial-slider-container {
+            gap: 15px;
+          }
+          .carousel-nav-btn {
+            width: 40px;
+            height: 40px;
+          }
+          .testimonial-card {
+            padding: 30px 20px;
+          }
+          .testimonial-quote {
+            font-size: 1.1rem;
+          }
         }
 
         @media (max-width: 576px) {
@@ -570,6 +1053,9 @@ export default function Home({ setCurrentPage }) {
           }
           .notice-board {
             padding: 24px;
+          }
+          .gallery-grid {
+            grid-template-columns: 1fr;
           }
         }
       `}</style>

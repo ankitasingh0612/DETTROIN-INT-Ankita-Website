@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { BookOpen, GraduationCap, Award, Compass, Search } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, GraduationCap, Award, Compass, Globe, Activity, Heart } from 'lucide-react';
 
-export default function Academics() {
-  const [activeTab, setActiveTab] = useState('junior');
+export default function Academics({ activeTab: propActiveTab, setActiveTab: propSetActiveTab }) {
+  const [localActiveTab, setLocalActiveTab] = useState('junior');
+  const activeTab = propActiveTab || localActiveTab;
+  const setActiveTab = propSetActiveTab || setLocalActiveTab;
 
   const divisions = {
     junior: {
@@ -36,6 +38,39 @@ export default function Academics() {
         'Student-led societies (Robotics, Model UN, Poetry, Commerce)',
         'Advanced computer lab and research facilities',
         'Focus on peer leadership and community service'
+      ]
+    },
+    international: {
+      title: 'International Curriculum (IGCSE & IB Options)',
+      tagline: 'Global perspectives, internationally benchmarked qualifications.',
+      desc: 'In addition to our robust CBSE stream, Vasant Valley provides Cambridge IGCSE and International Baccalaureate (IB) courses for senior years. This pathway emphasizes inquiry-based international pedagogy, cross-disciplinary studies, and global citizenship, ensuring students are ready for top-tier international universities.',
+      features: [
+        'Cambridge IGCSE exams in Grade X',
+        'IB Diploma Programme (IBDP) options for Grades XI-XII',
+        'Global perspective research assignments',
+        'Advanced critical reflection through Theory of Knowledge (TOK)'
+      ]
+    },
+    sen: {
+      title: 'Special Education Needs (SEN) Programme',
+      tagline: 'Inclusive learning environments catering to diverse talents.',
+      desc: 'At Vasant Valley, we celebrate diverse learning styles. Our Special Education Needs (SEN) cell provides tailored learning programs, speech therapy, occupational therapy, and emotional counseling. We follow an inclusive integration policy to ensure every student feels valued, supported, and challenged.',
+      features: [
+        'Individualized Education Plans (IEPs) for custom pacing',
+        'Remedial educator sessions and testing accommodations',
+        'Full-time student welfare counselors and speech therapists',
+        'Sensory-friendly learning environments'
+      ]
+    },
+    programmes: {
+      title: 'Intra & Inter-School Programmes',
+      tagline: 'Unleashing competitive spirit and leadership through collaboration.',
+      desc: 'Vasant Valley hosts a rich suite of collaborative programmes throughout the academic year. These include intra-school house challenges, inter-school cultural festivals, and national-level sports tournaments. We foster healthy competition, public speaking excellence, and real-world teamwork.',
+      features: [
+        'Intra-School Debating & Arts House Cups',
+        'Inter-School Science, Tech, and Robotics Symposia',
+        'Model United Nations (VVMUN) Conferences',
+        'National and State-Level Athletics and Sports tournaments'
       ]
     }
   };
@@ -72,6 +107,24 @@ export default function Academics() {
               onClick={() => setActiveTab('senior')}
             >
               <GraduationCap size={18} /> Senior School
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'international' ? 'active' : ''}`}
+              onClick={() => setActiveTab('international')}
+            >
+              <Globe size={18} /> International
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'sen' ? 'active' : ''}`}
+              onClick={() => setActiveTab('sen')}
+            >
+              <Heart size={18} /> SEN Support
+            </button>
+            <button 
+              className={`tab-btn ${activeTab === 'programmes' ? 'active' : ''}`}
+              onClick={() => setActiveTab('programmes')}
+            >
+              <Activity size={18} /> Programmes
             </button>
           </div>
 
@@ -161,22 +214,25 @@ export default function Academics() {
         .tabs-nav {
           display: flex;
           justify-content: center;
-          gap: 20px;
+          flex-wrap: wrap;
+          gap: 15px;
           margin-bottom: 40px;
         }
 
         .tab-btn {
           background-color: var(--bg-pure);
           color: var(--text-dark);
-          padding: 14px 28px;
+          padding: 12px 24px;
           border-radius: var(--radius-sm);
           font-weight: 600;
-          font-size: 1rem;
+          font-size: 0.95rem;
           box-shadow: var(--shadow-sm);
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 8px;
           border: 1px solid rgba(197, 168, 128, 0.2);
+          transition: var(--transition-fast);
+          cursor: pointer;
         }
 
         .tab-btn.active {
@@ -269,10 +325,16 @@ export default function Academics() {
           line-height: 1.6;
         }
 
+        @media (max-width: 992px) {
+          .tabs-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
         @media (max-width: 768px) {
           .tabs-nav {
-            flex-direction: column;
-            gap: 12px;
+            grid-template-columns: 1fr 1fr;
           }
           .tab-content-wrapper {
             padding: 30px 24px;
@@ -281,6 +343,12 @@ export default function Academics() {
             grid-template-columns: 1fr;
           }
           .beyond-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .tabs-nav {
             grid-template-columns: 1fr;
           }
         }
