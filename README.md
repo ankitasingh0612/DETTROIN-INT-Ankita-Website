@@ -6,10 +6,10 @@ Vasant Valley School Redesign Website developed as part of the **Dettroin Full S
 
 ## 👤 Intern Information
 
-- **Full Name**: [Aapka Full Name yahan likhein]
+- **Full Name**: [Ankita Singh]
 - **Intern ID**: [Aapka Intern ID yahan likhein]
-- **Email Address**: [Aapka Email Address yahan likhein]
-- **GitHub Username**: [Aapka GitHub Username yahan likhein]
+- **Email Address**: [singhankit919869@gmail.com]
+- **GitHub Username**: [ankitasingh0612]
 - **Selected Website**: [Vasant Valley School](https://www.vasantvalley.org)
 
 ---
